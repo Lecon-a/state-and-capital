@@ -1,0 +1,36 @@
+*, h3, p, hr {
+    margin: 0;
+}
+
+h3, p {
+    padding: 0;
+}
+
+header nav {
+    display: flex;
+    padding: 1em;
+    box-shadow: 1px 2px 1px rgba(220, 220, 220, 0.75);
+}
+
+nav > img {
+    width: 32px;
+    height: auto;
+    margin-right: 15px;
+}
+
+.section--address {
+    padding: 20px;
+    display: flex;
+    flex-direction: row;
+    overflow-y: scroll;
+}
+
+.address--card {
+    display: flex;
+    flex-direction: column;
+    padding: .5em 1em 0;
+}
+
+hr {
+    margin-top: 0.5em;
+}
