@@ -1,27 +1,54 @@
-import React from 'react';
-import Contact from './components/Contact';
-import Address from './AddressData';
+import React, { useRef } from 'react';
+import { useReactToPrint } from 'react-to-print';
+
+import Header from './components/Header';
+import Form from './components/Form';
+import ImageCard from './components/ImageCard';
+import Print from './components/Print';
 
 function App() {
-    const addressElement = Address.map((item, index) => {
-        return <Contact
-            key={index}
-            // {...item} <= object spreading technique
-            item={item}
-        />
+    
+    const componentRef = useRef();
+    const [isToggleBallPosition, setIsToggleBallPostion] = React.useState(false);
+
+    const handleDarkMode = () => {
+        setIsToggleBallPostion(prevIsToggleBallPosition => !prevIsToggleBallPosition)
+    }
+
+    const handlePrint = useReactToPrint({
+        content: () => componentRef.current,
+        documentTitle: 'SPa_Image_Generated',
+        onAfterPrint: () => alert('Printed successfully!')
+    });
+
+    const [formData, setFormData] = React.useState({
+        topText: '',
+        bottomText: '',
+        textColor: '',
+        image: 'image (1).jpg'
     });
 
     return (
-        <div>
-            <header>
-                <nav>
-                    <img src='../images/app.jpg' alt='brand logo' />
-                    <h1>State and Capital</h1>
-                </nav>
-            </header>
-            <section className='section--address'>
-                {addressElement}
-            </section>
+        <div className='major--container'>
+            <Header
+                darkMode={isToggleBallPosition}
+                onDarkMode={handleDarkMode}
+            />
+            <div className='section' style={{ backgroundColor: isToggleBallPosition ? '#444' : '', color: isToggleBallPosition? '#eee' : ''}}>
+                <ImageCard
+                    componentRef={componentRef}
+                    formData={formData}
+                />
+
+                <Form
+                    formData={formData}
+                    setFormData={setFormData}
+                    darkMode={isToggleBallPosition}
+                />
+
+                <Print onPrint={ handlePrint } />
+                
+            </div>
         </div>
     )
 }
